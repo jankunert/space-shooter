@@ -64,13 +64,6 @@ public class GameController : MonoBehaviour {
 
 
 
-        /*if (wavesDone==numberOfWaves&&gameOveer ==false )
-        {
-            yield return new WaitForSeconds(5);
-            restartText.text = "Success! Press 'R' to restart.";
-            restart = true;
-            
-        }*/
 
     }
     IEnumerator ShowRestartFail()
@@ -87,7 +80,8 @@ public class GameController : MonoBehaviour {
         if (wavesDone == numberOfWaves && gameOveer == false)
         {
             yield return new WaitForSeconds(5);
-            restartText.text = "Success! Press 'R' to restart.";
+            if(gameOveer==false)restartText.text = "Success! Press 'R' to restart.";
+            scoreText.text = "";
             restart = true;
 
         }

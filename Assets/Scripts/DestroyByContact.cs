@@ -22,6 +22,8 @@ public class DestroyByContact : MonoBehaviour {
         {
             Debug.Log("Cannot find gameController Script");
         }
+        scoreValue = 10;
+        
     }
 
     void OnTriggerEnter(Collider other)
@@ -36,6 +38,7 @@ public class DestroyByContact : MonoBehaviour {
             Instantiate(playerExplosion, other.transform.position, other.transform.rotation);
             gameController.GameOver();
         }
+ 
         gameController.AddScore (scoreValue);
         Destroy(other.gameObject);
         Destroy(gameObject);
