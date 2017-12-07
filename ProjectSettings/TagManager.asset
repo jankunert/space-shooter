@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Boundary
   - Astroid
+  - Enemy
+  - EnemyBolt
+  - Bolt
   layers:
   - Default
   - TransparentFX

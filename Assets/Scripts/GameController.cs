@@ -1,21 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour {
 
     public GameObject hazard1;
     public GameObject hazard2;
     public GameObject hazard3;
-    //public GameObject hazardG;
+    public GameObject enemy;
     private GameObject actHazard;
-    private float whichRandomHazard;
     public Vector3 spawnValues;
     public int HazardsPerWave;
     public float spawnWait;
     public float startWait;
     public float waitBetweenWaves;
     public float numberOfWaves;
+    public int enemyFrequency;
     public PlayerController player;
 
     public GUIText scoreText;
@@ -30,7 +31,7 @@ public class GameController : MonoBehaviour {
     public bool gameOveer;
     private bool restart;
     private bool count;
-    private float floatShowWavesDone;
+    public float floatShowWavesDone;
 
     void Start()
     {
@@ -74,11 +75,20 @@ public class GameController : MonoBehaviour {
             {
                 if (gameOveer == false)
                 {
-                    whichRandomHazard = (Random.Range(1, 4));
-                    if (whichRandomHazard == 1) actHazard = hazard1;
-                    if (whichRandomHazard == 2) actHazard = hazard2;
-                    if (whichRandomHazard == 3) actHazard = hazard3;
+                    float whichRandomHazard = (Random.Range(1, 4));
+                    int spawnAnEnemy = (Random.Range(1, enemyFrequency));
+                    if (spawnAnEnemy == 1)
+                    {
+                        actHazard = enemy;
+                    }
+                    else
+                    {
+                        if (whichRandomHazard == 1) actHazard = hazard1;
+                        if (whichRandomHazard == 2) actHazard = hazard2;
+                        if (whichRandomHazard == 3) actHazard = hazard3;
+                    }
                     Vector3 spawnPosition = new Vector3(Random.Range(-6.0f, 6.0f), spawnValues.y, spawnValues.z);
+                    
                     Quaternion spawnRotation = Quaternion.identity;
                     Instantiate(actHazard, spawnPosition, spawnRotation);
                     yield return new WaitForSeconds(spawnWait);
@@ -108,17 +118,17 @@ public class GameController : MonoBehaviour {
         if (gameOveer == true&&restart==false)
         {
             yield return new WaitForSeconds(1); 
-            restartText.text = "Press 'R' to restart.";
             restart = true;
             scoreText.text = "";
             
             finalScore.text = "Your Score: " + score;
             while(count)
             {
-                yield return new WaitForSeconds(1);
-                restartText.text = "";
+
                 yield return new WaitForSeconds(1);
                 restartText.text = "Press 'R' to restart.";
+                yield return new WaitForSeconds(1);
+                restartText.text = "Press 'M' for Main Menu.";
             }
         }
     }
@@ -156,6 +166,8 @@ public class GameController : MonoBehaviour {
         gameOver.text = "Game Over!";
         player.notify.text = "";
         notifyC.text = "";
+        player.notify.text = "";
+        player.tokenCounter.text = "";
         gameOveer = true;
         
         
@@ -168,7 +180,7 @@ public class GameController : MonoBehaviour {
 
             yield return new WaitForSeconds(5);
             floatShowWavesDone = wavesDone + 1;
-            notifyC.text = "Wave " + floatShowWavesDone;
+            if(gameOveer==false)notifyC.text = "Wave " + floatShowWavesDone;
             yield return new WaitForSeconds(2);
             notifyC.text = "";
         }
@@ -189,9 +201,13 @@ public class GameController : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.R))
             {
                 count = false;
-                Application.LoadLevel(Application.loadedLevel);
+                SceneManager.LoadScene(1);
             }
-
+            else if (Input.GetKeyDown(KeyCode.M))
+            {
+                count = false;
+                SceneManager.LoadScene(0);
+            }
         }
     }
 

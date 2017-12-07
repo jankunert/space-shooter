@@ -9,6 +9,12 @@ public class BG : MonoBehaviour {
 	
 	void Start ()
     {
+        
+
+
+
+
+
         startPosition = transform.position;
        
 	}
@@ -16,8 +22,12 @@ public class BG : MonoBehaviour {
 	
 	void Update ()
     {
-        float newPostion = Mathf.Repeat(Time.time * scrollspeed, tileSizedZ);
+        float newPostion = Mathf.Repeat(Time.time * scrollspeed*-1, tileSizedZ);
         transform.position = startPosition + Vector3.forward * newPostion;
+
+       
+        
+
     }
 		
 	
